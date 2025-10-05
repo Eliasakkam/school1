@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>الحضور</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #5a2a83, #9c27b0);
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      padding: 24px 16px;
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+      direction: rtl;
+    }
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.8em;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    p {
+      text-align: center;
+      color: #e0d7ff;
+      margin-bottom: 20px;
+      font-size: 1em;
+      padding: 0 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      font-size: 0.9em;
+      word-break: break-word;
+    }
+    th, td {
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    th {
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: bold;
+      font-size: 1em;
+      letter-spacing: 1px;
+      color: white;
+    }
+    tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.15);
+      transition: background 0.3s ease;
+      color: white;
+    }
+    td[contenteditable="true"] {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: black;
+    }
+    .edit-btn,
+    .save-btn,
+    .delete-btn,
+    .add-btn {
+      background: #9c27b0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.9em;
+      margin: 2px;
+      box-shadow: 0 4px 12px rgba(156, 39, 176, 0.5);
+      transition: background 0.3s ease;
+    }
+    .edit-btn:hover,
+    .save-btn:hover,
+    .delete-btn:hover,
+    .add-btn:hover {
+      background: #7b1fa2;
+    }
+    .add-form {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      padding: 0 5px;
+    }
+    .add-form input,
+    .add-form select {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: none;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      min-width: 140px;
+      flex: 1 1 140px;
+      box-sizing: border-box;
+    }
+    .add-form input::placeholder {
+      color: #ddd;
+    }
+    .group-row {
+      background: rgba(255, 255, 255, 0.1) !important;
+      font-weight: bold;
+      color: #ffe;
+      font-size: 1.1em;
+    }
+    .back-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: linear-gradient(90deg, #ab47bc, #8e24aa);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(171, 71, 188, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .back-btn:hover {
+      background: linear-gradient(90deg, #8e24aa, #ab47bc);
+      transform: scale(1.05);
+    }
+    .buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+      align-items: center;
+    }
+    /* زر الاستيراد مخفي */
+    #importFile {
+      display: none;
+    }
+    /* زر الاستيراد ظاهر بتصميم متناسق */
+    .import-btn {
+      background: linear-gradient(90deg, #9c27b0, #7b1fa2);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 24px;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(156, 39, 176, 0.5);
+      transition: background 0.3s ease, transform 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .import-btn:hover {
+      background: linear-gradient(90deg, #7b1fa2, #9c27b0);
+      transform: scale(1.05);
+    }
+    /* صندوق البحث */
+    #searchInput {
+      max-width: 280px;
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 1em;
+      border-radius: 30px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+      user-select: text;
+    }
+    #searchInput::placeholder {
+      color: #ddd;
+    }
+    #searchInput:focus {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 20px rgba(156, 39, 176, 0.7);
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 12px 10px;
+        padding: 16px 12px;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      p {
+        font-size: 0.9em;
+      }
+      .add-form {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .add-form input,
+      .add-form select {
+        flex: 1 1 100%;
+        min-width: unset;
+      }
+      table, th, td {
+        font-size: 0.85em;
+      }
+      .back-btn {
+        padding: 10px 20px;
+        font-size: 0.95em;
+      }
+      .buttons-wrapper {
+        gap: 10px;
+      }
+      #searchInput {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>الحضور</h2>
+    <p>قائمة الطلاب الحاضرين حسب الصفوف.</p>
+
+    <form class="add-form" id="addAttendanceForm" onsubmit="addAttendance(event)">
+      <input type="text" id="studentName" placeholder="اسم الطالب" required />
+      <select id="studentClass" required>
+        <option value="">اختر الصف</option>
+        <option value="أول ثانوي">أول ثانوي</option>
+        <option value="ثاني ثانوي">ثاني ثانوي</option>
+        <option value="ثالث ثانوي">ثالث ثانوي</option>
+      </select>
+      <button type="submit" class="back-btn">إضافة</button>
+    </form>
+
+    <div class="buttons-wrapper" style="justify-content: space-between; flex-wrap: wrap;">
+      <input type="text" id="searchInput" placeholder="ابحث عن اسم أو صف الطالب" />
+    </div>
+
+    <table id="attendanceTable" aria-label="جدول الحضور">
+      <thead>
+        <tr>
+          <th>اسم الطالب</th>
+          <th>الصف</th>
+          <th>تعديل</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="group-row">
+          <td colspan="4">أول ثانوي</td>
+        </tr>
+        <tr>
+          <td contenteditable="false">عبدالله محمد</td>
+          <td contenteditable="false">أول ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+        <tr>
+          <td contenteditable="false">صالح خالد</td>
+          <td contenteditable="false">أول ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+
+        <tr class="group-row">
+          <td colspan="4">ثاني ثانوي</td>
+        </tr>
+        <tr>
+          <td contenteditable="false">محمد العتيبي</td>
+          <td contenteditable="false">ثاني ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+        <tr>
+          <td contenteditable="false">ياسر عبدالله</td>
+          <td contenteditable="false">ثاني ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+
+        <tr class="group-row">
+          <td colspan="4">ثالث ثانوي</td>
+        </tr>
+        <tr>
+          <td contenteditable="false">خالد يوسف</td>
+          <td contenteditable="false">ثالث ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+        <tr>
+          <td contenteditable="false">فيصل فهد</td>
+          <td contenteditable="false">ثالث ثانوي</td>
+          <td>
+            <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+            <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+          </td>
+          <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="buttons-wrapper">
+      <a href="../index.html" class="back-btn">العودة</a>
+      <label for="importFile" class="import-btn" tabindex="0">استيراد ملف CSV</label>
+      <input type="file" id="importFile" accept=".csv" />
+      <button onclick="downloadExcel()" class="back-btn" type="button">تحميل جدول Excel</button>
+    </div>
+  </div>
+
+  <script>
+    // تعديل الصف
+    function editRow(btn) {
+      const row = btn.closest("tr");
+      row.querySelectorAll('td[contenteditable]').forEach(td => td.contentEditable = "true");
+      btn.style.display = "none";
+      row.querySelector(".save-btn").style.display = "inline-block";
+    }
+    // حفظ التعديل
+    function saveRow(btn) {
+      const row = btn.closest("tr");
+      row.querySelectorAll('td[contenteditable]').forEach(td => td.contentEditable = "false");
+      btn.style.display = "none";
+      row.querySelector(".edit-btn").style.display = "inline-block";
+    }
+    // حذف الصف
+    function deleteRow(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+    }
+    // إضافة حضور جديد
+    function addAttendance(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById("studentName");
+      const classSelect = document.getElementById("studentClass");
+      const name = nameInput.value.trim();
+      const studentClass = classSelect.value.trim();
+      if (!name || !studentClass) return;
+
+      const tbody = document.querySelector("#attendanceTable tbody");
+      const groupRows = Array.from(tbody.querySelectorAll("tr.group-row"));
+      let insertAfterRow = null;
+
+      for (const groupRow of groupRows) {
+        if (groupRow.textContent.trim() === studentClass) {
+          insertAfterRow = groupRow;
+          let next = groupRow.nextElementSibling;
+          while (next && !next.classList.contains("group-row")) {
+            insertAfterRow = next;
+            next = next.nextElementSibling;
+          }
+          break;
+        }
+      }
+      // إنشاء صف جديد للمجموعة إذا غير موجودة
+      if (!insertAfterRow) {
+        const newGroupRow = document.createElement("tr");
+        newGroupRow.classList.add("group-row");
+        newGroupRow.innerHTML = `<td colspan="4">${studentClass}</td>`;
+        tbody.appendChild(newGroupRow);
+        insertAfterRow = newGroupRow;
+      }
+      // إضافة الصف الجديد بعد صف المجموعة الأخير
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td contenteditable="false">${name}</td>
+        <td contenteditable="false">${studentClass}</td>
+        <td>
+          <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+          <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+        </td>
+        <td>
+          <button class="delete-btn" onclick="deleteRow(this)">حذف</button>
+        </td>
+      `;
+      insertAfterRow.after(newRow);
+
+      nameInput.value = "";
+      classSelect.value = "";
+      filterTable(); // لتحديث نتائج البحث بعد الإضافة
+    }
+    // تحميل جدول Excel (CSV)
+    function downloadExcel() {
+      const table = document.getElementById("attendanceTable");
+      let csv = [];
+      const headers = Array.from(table.querySelectorAll("thead th"))
+        .slice(0, 2)
+        .map(th => `"${th.innerText.trim()}"`);
+      csv.push(headers.join(";"));
+
+      table.querySelectorAll("tbody tr").forEach(row => {
+        if (row.classList.contains("group-row")) return;
+        const cells = Array.from(row.querySelectorAll("td"))
+          .slice(0, 2)
+          .map(td => `"${td.innerText.replace(/"/g, '""').trim()}"`);
+        if (cells.length === 2) csv.push(cells.join(","));
+      });
+
+      const blob = new Blob(["\uFEFF" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "attendance_list.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // فلترة الجدول حسب البحث
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", filterTable);
+
+    function filterTable() {
+      const filter = searchInput.value.trim().toLowerCase();
+      const tbody = document.querySelector("#attendanceTable tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+
+      // نعرض الصفوف التي تطابق البحث أو صفوف العناوين
+      let currentGroupVisible = false;
+      rows.forEach(row => {
+        if (row.classList.contains("group-row")) {
+          // صف المجموعة: نظنه غير ظاهر مؤقتاً
+          currentGroupVisible = false;
+          // نقرر إظهار صف المجموعة بناءً على ظهور أي صف تالي تابع له
+          // نترك قرار الظهور مؤقتاً، نفعّل بناءً على صفوف الطلاب التالية
+          row.style.display = "none";
+        } else {
+          const name = row.cells[0].innerText.toLowerCase();
+          const studentClass = row.cells[1].innerText.toLowerCase();
+          if (name.includes(filter) || studentClass.includes(filter)) {
+            row.style.display = "";
+            currentGroupVisible = true;
+            // إظهار صف المجموعة السابق لهذا الصف
+            // نجد صف المجموعة السابق:
+            let prev = row.previousElementSibling;
+            while (prev && !prev.classList.contains("group-row")) {
+              prev = prev.previousElementSibling;
+            }
+            if (prev) prev.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        }
+      });
+    }
+
+    // استيراد CSV
+    const importFileInput = document.getElementById("importFile");
+    importFileInput.addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        parseCSV(text);
+      };
+      reader.readAsText(file);
+      // إعادة تعيين القيمة للسماح بتحميل نفس الملف مرة أخرى إذا أردت
+      importFileInput.value = "";
+    });
+
+    // تحليل ملف CSV وإضافة البيانات
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      for (const line of lines) {
+        const parts = line.split(",");
+        if (parts.length < 2) continue;
+        const name = parts[0].replace(/(^"|"$)/g, "").trim();
+        const studentClass = parts[1].replace(/(^"|"$)/g, "").trim();
+        if (name && studentClass) {
+          addAttendanceFromImport(name, studentClass);
+        }
+      }
+      filterTable();
+    }
+    // إضافة الحضور من ملف الاستيراد مباشرة
+    function addAttendanceFromImport(name, studentClass) {
+      const tbody = document.querySelector("#attendanceTable tbody");
+      const groupRows = Array.from(tbody.querySelectorAll("tr.group-row"));
+      let insertAfterRow = null;
+
+      for (const groupRow of groupRows) {
+        if (groupRow.textContent.trim() === studentClass) {
+          insertAfterRow = groupRow;
+          let next = groupRow.nextElementSibling;
+          while (next && !next.classList.contains("group-row")) {
+            insertAfterRow = next;
+            next = next.nextElementSibling;
+          }
+          break;
+        }
+      }
+      if (!insertAfterRow) {
+        const newGroupRow = document.createElement("tr");
+        newGroupRow.classList.add("group-row");
+        newGroupRow.innerHTML = `<td colspan="4">${studentClass}</td>`;
+        tbody.appendChild(newGroupRow);
+        insertAfterRow = newGroupRow;
+      }
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td contenteditable="false">${name}</td>
+        <td contenteditable="false">${studentClass}</td>
+        <td>
+          <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+          <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+        </td>
+        <td>
+          <button class="delete-btn" onclick="deleteRow(this)">حذف</button>
+        </td>
+      `;
+      insertAfterRow.after(newRow);
+    }
+  </script>
+</body>
+</html>

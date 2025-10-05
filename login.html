@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تسجيل الدخول / إنشاء حساب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #5a2a83, #9c27b0);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      padding: 35px 25px;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background-color: #ffeb3b;
+      color: #333;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #fdd835;
+      transform: scale(1.02);
+    }
+    .error, .success {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .error { color: #ffcdd2; }
+    .success { color: #a5ffb3; }
+    .toggle-link {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      display: inline-block;
+      text-decoration: underline;
+      cursor: pointer;
+      color: #ffe;
+    }
+    .extra-link {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #ffeb3b;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: underline;
+    }
+    .hidden { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    /* زر الحساب المؤقت */
+    #top-right-button {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+    }
+    /* البوب أب */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 350px;
+      animation: fadeIn 0.5s ease;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    .modal-content button {
+      background: #5a2a83;
+      color: #fff;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- زر الحساب المؤقت -->
+  <div id="top-right-button">
+    <button onclick="generateTempAccount()">⚡ حساب مؤقت</button>
+  </div>
+
+  <!-- البوب أب -->
+  <div id="tempModal" class="modal">
+    <div class="modal-content">
+      <h3>🔑 حساب مؤقت</h3>
+      <div id="tempData"></div>
+      <button onclick="copyTempData()">📋 نسخ</button>
+      <button onclick="closeModal()">❌ إغلاق</button>
+    </div>
+  </div>
+
+  <!-- تسجيل الدخول -->
+  <div class="container" id="loginBox">
+    <h2>satech edu</h2>
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="loginUsername" placeholder="اسم المستخدم" />
+    <input type="password" id="loginPassword" placeholder="كلمة المرور" />
+    <button onclick="login()">دخول</button>
+    <div id="loginError" class="error"></div>
+    <span class="toggle-link" onclick="toggleForms()">ما عندك حساب؟ سجل الآن</span>
+    <br />
+    <span class="extra-link" style="cursor:pointer;" onclick="window.location.href='subscriptions.html'">ليس لديك اشتراك؟</span>
+  </div>
+
+  <!-- تسجيل حساب جديد -->
+  <div class="container hidden" id="registerBox">
+    <h2>تسجيل حساب جديد</h2>
+    <input type="text" id="regUsername" placeholder="اسم المستخدم" />
+    <input type="password" id="regPassword" placeholder="كلمة المرور" />
+    <input type="password" id="regConfirm" placeholder="تأكيد كلمة المرور" />
+    <button onclick="register()">تسجيل</button>
+    <div id="registerError" class="error"></div>
+    <div id="registerSuccess" class="success"></div>
+    <span class="toggle-link" onclick="toggleForms()">عندك حساب؟ سجل دخول</span>
+  </div>
+
+  <script>
+    function toggleForms() {
+      document.getElementById("loginBox").classList.toggle("hidden");
+      document.getElementById("registerBox").classList.toggle("hidden");
+      clearMessages();
+    }
+
+    function clearMessages() {
+      document.getElementById("loginError").textContent = "";
+      document.getElementById("registerError").textContent = "";
+      document.getElementById("registerSuccess").textContent = "";
+    }
+
+    function register() {
+      const username = document.getElementById("regUsername").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+      const confirm = document.getElementById("regConfirm").value.trim();
+      const error = document.getElementById("registerError");
+      const success = document.getElementById("registerSuccess");
+      error.textContent = "";
+      success.textContent = "";
+
+      if (!username || !password || !confirm) {
+        error.textContent = "كل الحقول مطلوبة.";
+        return;
+      }
+
+      if (password.length < 4) {
+        error.textContent = "كلمة المرور ضعيفة، استخدم 4 أحرف أو أكثر.";
+        return;
+      }
+
+      if (password !== confirm) {
+        error.textContent = "كلمتا المرور غير متطابقتين.";
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      if (users.find(user => user.username === username)) {
+        error.textContent = "اسم المستخدم مستخدم مسبقًا.";
+        return;
+      }
+
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      success.textContent = "تم إنشاء الحساب بنجاح! سجل الدخول الآن.";
+    }
+
+    function login() {
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const error = document.getElementById("loginError");
+      error.textContent = "";
+
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+      const found = users.find(user => user.username === username && user.password === password);
+
+      if (found || (username === "admin" && password === "1234")) {
+        localStorage.setItem("isUnlocked", "true");
+        localStorage.setItem("loggedUser", username);
+        window.location.href = "index.html";
+      } else {
+        error.textContent = "بيانات غير صحيحة، حاول مرة أخرى.";
+      }
+    }
+
+    // توليد حساب مؤقت
+    function generateTempAccount() {
+      const username = "user" + Math.floor(Math.random() * 10000);
+      const password = Math.random().toString(36).slice(-8);
+
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      document.getElementById("tempData").innerHTML = `
+        👤 <strong>اسم المستخدم:</strong> ${username}<br>
+        🔐 <strong>كلمة المرور:</strong> ${password}
+      `;
+      document.getElementById("tempModal").style.display = "flex";
+    }
+
+    function copyTempData() {
+      const text = document.getElementById("tempData").innerText;
+      navigator.clipboard.writeText(text).then(() => alert("✅ تم نسخ البيانات!"));
+    }
+
+    function closeModal() {
+      document.getElementById("tempModal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

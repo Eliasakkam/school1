@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تفعيل الاشتراك</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #fafafa;
+      padding: 60px 20px;
+      text-align: center;
+      direction: rtl;
+    }
+    .box {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: 'Cairo', sans-serif;
+    }
+    h2 {
+      color: #3f51b5;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+    }
+    button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-family: 'Cairo', sans-serif;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+    .message {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .success {
+      color: #4CAF50;
+    }
+    .error {
+      color: #f44336;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #e0e0e0;
+      color: #333;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      font-family: 'Cairo', sans-serif;
+    }
+    .back-link:hover {
+      background-color: #d5d5d5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>تفعيل الاشتراك</h2>
+    <form onsubmit="return checkCode(event)">
+      <input type="text" id="activationCode" placeholder="أدخل كود التفعيل (أرقام فقط)" maxlength="6" pattern="\d*" required />
+      <button type="submit">تفعيل الآن</button>
+      <div id="resultMessage" class="message"></div>
+    </form>
+
+    <a href="login.html" class="back-link">⬅️ الرجوع لتسجيل الدخول</a>
+  </div>
+
+  <script>
+    if(localStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    // أكواد التفعيل الصحيحة (أرقام فقط)
+    const validCodes = {
+      "111111": "عادي",
+      "222222": "بريميوم",
+      "333333": "ذهبي"
+    };
+
+    function checkCode(event) {
+      event.preventDefault();
+      const codeInput = document.getElementById('activationCode');
+      const code = codeInput.value.trim();
+      const result = document.getElementById('resultMessage');
+
+      if(!/^\d{6}$/.test(code)) {
+        result.textContent = "❌ الكود يجب أن يكون 6 أرقام فقط.";
+        result.className = "message error";
+        return false;
+      }
+
+      if(validCodes[code]) {
+        localStorage.setItem("activatedCode", code);
+        localStorage.setItem("subscriptionLevel", validCodes[code]);
+        result.textContent = `✅ تم تفعيل الاشتراك (${validCodes[code]}) بنجاح!`;
+        result.className = "message success";
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1500);
+      } else {
+        result.textContent = "❌ الكود غير صالح، حاول مرة أخرى.";
+        result.className = "message error";
+      }
+
+      return false;
+    }
+  </script>
+</body>
+</html>

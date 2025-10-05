@@ -1,0 +1,20 @@
+{
+  "name": "موقعي الجميل",
+  "short_name": "موقعي",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5a2a83",
+  "icons": [
+    {
+      "src": "icons/155.png",
+      "sizes": "155x155",
+      "type": "155.png"
+    },
+    {
+      "src": "icons/155.png",
+      "sizes": "512x512",
+      "type": "155.png"
+    }
+  ]
+}

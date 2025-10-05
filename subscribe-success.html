@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تم الاشتراك</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #d4fc79, #336b3a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .message-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeInUp 1s ease;
+      z-index: 10;
+      position: relative;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #388e3c;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(90deg, #81c784, #66bb6a);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 6px 20px rgba(102, 187, 106, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #66bb6a, #81c784);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .message-box {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .back-link {
+        font-size: 0.95rem;
+        padding: 12px 24px;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      top: 0;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 1000;
+      will-change: transform;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="message-box">
+    <h2>🎉 تم استلام طلبك بنجاح</h2>
+    <p>شكرًا لانضمامك! سنقوم بمراجعة البيانات والتواصل معك قريبًا.</p>
+    <a href="subscriptions.html" class="back-link">⬅️ الرجوع إلى صفحة الاشتراكات</a>
+  </div>
+
+  <script>
+    // كونفيتي 🎉
+    const colors = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#2196f3', '#00bcd4', '#4caf50', '#ffeb3b', '#ff9800'];
+
+    function createConfettiPiece() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.width = confetti.style.height = 8 + Math.random() * 7 + 'px';
+      confetti.style.opacity = 0.7 + Math.random() * 0.3;
+
+      const fallDuration = 3000 + Math.random() * 2000;
+      document.body.appendChild(confetti);
+
+      let start = null;
+      function animate(timestamp) {
+        if (!start) start = timestamp;
+        const elapsed = timestamp - start;
+        const progress = elapsed / fallDuration;
+        confetti.style.top = progress * window.innerHeight + 'px';
+        confetti.style.transform = `rotate(${progress * 360}deg)`;
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          confetti.remove();
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function launchConfetti(count) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(createConfettiPiece, i * 150);
+      }
+    }
+
+    window.onload = () => {
+      launchConfetti(30);
+    };
+  </script>
+</body>
+</html>

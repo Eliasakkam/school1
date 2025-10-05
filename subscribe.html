@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>الاشتراك</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #5a2a83, #9c27b0);
+      font-family: 'Cairo', sans-serif;
+      padding: 20px 10px;
+      text-align: center;
+      margin: 0;
+    }
+    .box {
+      max-width: 400px;
+      width: 100%;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+    h2 {
+      color: #3f51b5;
+      margin-bottom: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 1.8rem;
+    }
+    input, select, button {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+    }
+    input, select {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, select:focus {
+      border-color: #3f51b5;
+      outline: none;
+    }
+    button {
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 0 12px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 10px;
+    }
+    #submitBtn {
+      background-color: #9c27b0;
+      color: white;
+      box-shadow: 0 0 12px #9c27b0;
+    }
+    #submitBtn:hover {
+      filter: brightness(85%);
+    }
+    #bankTransferBtn {
+      background-color: #9e9e9e;
+      color: white;
+      box-shadow: 0 0 12px #9e9e9e;
+    }
+    #bankTransferBtn.active-basic {
+      background-color: #9e9e9e;
+    }
+    #bankTransferBtn.active-premium {
+      background-color: #3f51b5;
+    }
+    #bankTransferBtn.active-gold {
+      background-color: #d4af37;
+      color: black;
+    }
+    #bankTransferInfo {
+      display: none;
+      text-align: right;
+      margin-top: 15px;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      color: #333;
+    }
+    #customDurationContainer {
+      display: none;
+      margin-top: 10px;
+    }
+    #customDurationInput {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .price-display {
+      margin: 8px 0;
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+    }
+    #calculationDetails {
+      display: none;
+      margin-top: 8px;
+      padding: 10px;
+      background: #e8e8e8;
+      border-radius: 8px;
+      text-align: right;
+      font-size: 14px;
+      color: #222;
+      white-space: pre-line;
+      font-family: monospace, 'Cairo', sans-serif;
+    }
+    #toggleCalcBtn {
+      margin-top: 4px;
+      background-color: #555;
+      color: white;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      box-shadow: none;
+    }
+    #toggleCalcBtn:hover {
+      background-color: #444;
+    }
+    #backBtn {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #3f51b5;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      background: #e3e3e3;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    #backBtn:hover {
+      background-color: #d0d0d0;
+    }
+    .upload-label {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <a href="subscriptions.html" id="backBtn">⬅ العودة إلى الاشتراكات</a>
+    <h2>طلب الاشتراك</h2>
+    <form id="subscriptionForm" method="get" action="subscribe-success.html" onsubmit="return validateBankInfo()">
+      <input type="text" name="fullname" placeholder="الاسم الكامل" required />
+      <input type="email" name="email" placeholder="البريد الإلكتروني" required />
+      <label style="display: flex; align-items: center; gap: 8px; direction: ltr;">
+        <span style="font-weight: bold;">+966</span>
+        <input type="tel" name="phone" placeholder="50xxxxxxx" pattern="50[0-9]{7}" title="يجب أن يبدأ رقم الجوال بـ 50 ويتكون من 9 أرقام كاملة" required style="flex: 1; text-align: left;" />
+      </label>
+
+      <select name="plan" id="planSelect" required>
+        <option value="">اختر نوع الاشتراك</option>
+        <option value="basic">العادي</option>
+        <option value="premium">بريميوم</option>
+        <option value="gold">الذهبي</option>
+      </select>
+
+      <div class="price-display" id="planPrice"></div>
+
+      <select name="duration" id="durationSelect" required>
+        <option value="">اختر مدة الاشتراك</option>
+        <optgroup label="أسبوعي">
+          <option value="1_week">أسبوع واحد</option>
+          <option value="2_weeks">أسبوعين</option>
+          <option value="3_weeks">ثلاثة أسابيع</option>
+        </optgroup>
+        <optgroup label="شهري">
+          <option value="1_month">شهر واحد</option>
+          <option value="3_months">ثلاثة أشهر</option>
+          <option value="6_months">ستة أشهر</option>
+        </optgroup>
+        <optgroup label="سنوي">
+          <option value="1_year">سنة واحدة</option>
+          <option value="2_years">سنتين</option>
+          <option value="3_years">ثلاث سنوات</option>
+        </optgroup>
+        <option value="custom">مخصصة</option>
+      </select>
+
+      <div id="customDurationContainer">
+        <input type="text" id="customDurationInput" name="customDuration" placeholder="اكتب المدة التي تريدها هنا" />
+      </div>
+
+      <div class="price-display" id="durationPrice"></div>
+
+      <button type="button" id="bankTransferBtn">اختيار التحويل البنكي</button>
+
+      <div id="bankTransferInfo">
+        <p><strong>اسم الحساب:</strong> شركة التعليم الرقمية</p>
+        <p><strong>البنك:</strong> بنك الراجحي</p>
+        <p><strong>رقم الآيبان:</strong> SA0000000000000000000000</p>
+        <label for="transferReceipt">إرفاق إيصال التحويل:</label>
+        <input type="file" id="transferReceipt" name="transferReceipt" accept="image/*,application/pdf" style="display: none;" />
+        <label for="transferReceipt" id="uploadLabel" class="upload-label">📎 اضغط هنا لإرفاق الإيصال</label>
+      </div>
+
+      <button id="submitBtn" type="submit">إرسال الطلب</button>
+
+      <button type="button" id="toggleCalcBtn">الحسبة الرياضية</button>
+      <div id="calculationDetails"></div>
+    </form>
+  </div>
+
+  <script>
+    const planPrices = {
+      basic: 99,
+      premium: 199,
+      gold: 349
+    };
+
+    const durationToWeeks = {
+      '1_week': 1,
+      '2_weeks': 2,
+      '3_weeks': 3,
+      '1_month': 4.345,
+      '3_months': 13.035,
+      '6_months': 26.07,
+      '1_year': 52.1775,
+      '2_years': 104.355,
+      '3_years': 156.5325
+    };
+
+    const planSelect = document.getElementById('planSelect');
+    const durationSelect = document.getElementById('durationSelect');
+    const planPriceDisplay = document.getElementById('planPrice');
+    const durationPriceDisplay = document.getElementById('durationPrice');
+    const bankTransferBtn = document.getElementById('bankTransferBtn');
+    const bankTransferInfo = document.getElementById('bankTransferInfo');
+    const submitBtn = document.getElementById('submitBtn');
+    const customDurationContainer = document.getElementById('customDurationContainer');
+    const customDurationInput = document.getElementById('customDurationInput');
+    const toggleCalcBtn = document.getElementById('toggleCalcBtn');
+    const calculationDetails = document.getElementById('calculationDetails');
+    const uploadLabel = document.getElementById('uploadLabel');
+
+    let bankTransferSelected = false;
+
+    function updateButtonColors(plan) {
+      let color = '#9c27b0';
+      if (plan === 'basic') color = '#9e9e9e';
+      else if (plan === 'premium') color = '#3f51b5';
+      else if (plan === 'gold') color = '#d4af37';
+
+      submitBtn.style.backgroundColor = color;
+      submitBtn.style.boxShadow = `0 0 12px ${color}`;
+      bankTransferBtn.style.backgroundColor = color;
+      bankTransferBtn.style.boxShadow = `0 0 12px ${color}`;
+      bankTransferBtn.style.color = (plan === 'gold') ? 'black' : 'white';
+      uploadLabel.style.backgroundColor = color;
+      uploadLabel.style.color = (plan === 'gold') ? 'black' : 'white';
+      uploadLabel.style.boxShadow = `0 0 12px ${color}`;
+    }
+
+    function updatePlanPrice() {
+      const plan = planSelect.value;
+      if (plan && planPrices[plan]) {
+        planPriceDisplay.textContent = `سعر الخطة الشهرية: ${planPrices[plan]} ريال سعودي`;
+        updateButtonColors(plan);
+      } else {
+        planPriceDisplay.textContent = '';
+        updateButtonColors(null);
+      }
+      updateTotalPrice();
+    }
+
+    function updateDurationPrice() {
+      const duration = durationSelect.value;
+      if (!duration) {
+        durationPriceDisplay.textContent = '';
+        customDurationContainer.style.display = 'none';
+        customDurationInput.required = false;
+        calculationDetails.style.display = 'none';
+        return;
+      }
+      if (duration === 'custom') {
+        durationPriceDisplay.textContent = 'المدة مخصصة، يرجى كتابة المدة التي تريدها أدناه.';
+        customDurationContainer.style.display = 'block';
+        customDurationInput.required = true;
+        calculationDetails.style.display = 'none';
+        return;
+      }
+      customDurationContainer.style.display = 'none';
+      customDurationInput.required = false;
+
+      const weeks = durationToWeeks[duration];
+      if (!weeks) {
+        durationPriceDisplay.textContent = '';
+        calculationDetails.style.display = 'none';
+        return;
+      }
+      durationPriceDisplay.textContent = `مدة الاشتراك: ${weeks.toFixed(2)} أسبوع/أسابيع`;
+      updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+      const plan = planSelect.value;
+      const duration = durationSelect.value;
+
+      if (!plan || !planPrices[plan]) {
+        durationPriceDisplay.textContent = '';
+        calculationDetails.style.display = 'none';
+        return;
+      }
+      if (!duration || duration === 'custom') {
+        durationPriceDisplay.textContent = '';
+        calculationDetails.style.display = 'none';
+        return;
+      }
+
+      const weeks = durationToWeeks[duration];
+      if (!weeks) {
+        durationPriceDisplay.textContent = '';
+        calculationDetails.style.display = 'none';
+        return;
+      }
+
+      const monthlyPrice = planPrices[plan];
+      const weeksInMonth = 52.1775 / 12;
+
+      let totalPrice = 0;
+      let calcText = '';
+
+      if (duration.endsWith('_week')) {
+        const weeklyPrice = monthlyPrice / weeksInMonth;
+        totalPrice = Math.round(weeklyPrice * weeks);
+        calcText = `الحسبة:\n- السعر الشهري: ${monthlyPrice} ريال\n- عدد الأسابيع: ${weeks.toFixed(2)} أسبوع\n- الحساب: (${monthlyPrice} ÷ ${weeksInMonth.toFixed(3)}) × ${weeks.toFixed(2)} = ${totalPrice} ريال تقريباً`;
+      } else if (duration.endsWith('_month')) {
+        const months = weeks / weeksInMonth;
+        totalPrice = Math.round(monthlyPrice * months);
+        calcText = `الحسبة:\n- السعر الشهري: ${monthlyPrice} ريال\n- عدد الأشهر: ${months.toFixed(2)} شهر\n- الحساب: ${monthlyPrice} × ${months.toFixed(2)} = ${totalPrice} ريال تقريباً`;
+      } else if (duration.endsWith('_year')) {
+        const years = weeks / 52.1775;
+        totalPrice = Math.round(monthlyPrice * 12 * years);
+        calcText = `الحسبة:\n- السعر الشهري: ${monthlyPrice} ريال\n- عدد السنوات: ${years.toFixed(2)} سنة\n- الحساب: ${monthlyPrice} × 12 × ${years.toFixed(2)} = ${totalPrice} ريال تقريباً`;
+      } else {
+        totalPrice = Math.round(monthlyPrice * (weeks / weeksInMonth));
+        calcText = `الحسبة:\n- السعر الشهري: ${monthlyPrice} ريال\n- عدد الأسابيع: ${weeks.toFixed(2)} أسبوع\n- الحساب: ${monthlyPrice} × (${weeks.toFixed(2)} ÷ ${weeksInMonth.toFixed(3)}) = ${totalPrice} ريال تقريباً`;
+      }
+
+      durationPriceDisplay.textContent = `💰 السعر التقريبي: ${totalPrice} ريال سعودي (${weeks.toFixed(2)} أسبوع/أسابيع)`;
+      calculationDetails.textContent = calcText;
+      calculationDetails.style.display = 'none';
+    }
+
+    planSelect.addEventListener('change', () => updatePlanPrice());
+    durationSelect.addEventListener('change', () => updateDurationPrice());
+
+    bankTransferBtn.addEventListener('click', () => {
+      bankTransferSelected = !bankTransferSelected;
+      bankTransferInfo.style.display = bankTransferSelected ? 'block' : 'none';
+    });
+
+    toggleCalcBtn.addEventListener('click', () => {
+      if (calculationDetails.style.display === 'none') {
+        calculationDetails.style.display = 'block';
+        toggleCalcBtn.textContent = 'إخفاء الحسبة الرياضية ▲';
+      } else {
+        calculationDetails.style.display = 'none';
+        toggleCalcBtn.textContent = 'الحسبة الرياضية ▼';
+      }
+    });
+
+    function validateBankInfo() {
+      if (bankTransferSelected) {
+        const receipt = document.getElementById('transferReceipt');
+        if (!receipt.files.length) {
+          alert('يرجى إرفاق إيصال التحويل البنكي.');
+          receipt.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    updatePlanPrice();
+    updateDurationPrice();
+  </script>
+</body>
+</html>

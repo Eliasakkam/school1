@@ -1,0 +1,14 @@
+{
+  "name": "school_admin_site",
+  "version": "1.0.0",
+  "description": "لوحة تحكم المدرسة",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "author": "elias",
+  "license": "ISC"
+}

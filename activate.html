@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تفعيل الاشتراك</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body {
+      background: #fafafa;
+      font-family: 'Cairo', sans-serif;
+      padding: 20px 10px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .box {
+      max-width: 400px;
+      width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    h2 {
+      color: #3f51b5;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #3f51b5;
+      outline: none;
+    }
+
+    button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+      box-shadow: 0 0 12px #3f51b5;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #303f9f;
+      box-shadow: 0 0 15px #303f9f;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #4CAF50;
+    }
+
+    .error {
+      color: #f44336;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 20px;
+      background-color: #e0e0e0;
+      color: #333;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .back-link:hover {
+      background-color: #d5d5d5;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>تفعيل الاشتراك</h2>
+    <form onsubmit="return checkCode(event)">
+      <input type="text" id="activationCode" placeholder="أدخل كود التفعيل" required />
+      <button type="submit">تفعيل الآن</button>
+      <div id="resultMessage" class="message"></div>
+    </form>
+
+    <a href="subscriptions.html" class="back-link">⬅️ الرجوع إلى الاشتراكات</a>
+  </div>
+
+  <script>
+    function checkCode(event) {
+      event.preventDefault();
+      const code = document.getElementById('activationCode').value.trim();
+      const result = document.getElementById('resultMessage');
+
+      if (code === "1234") {
+        result.textContent = "✅ تم التفعيل بنجاح!";
+        result.className = "message success";
+      } else {
+        result.textContent = "❌ الكود غير صالح، حاول مرة أخرى.";
+        result.className = "message error";
+      }
+
+      return false;
+    }
+  </script>
+</body>
+</html>

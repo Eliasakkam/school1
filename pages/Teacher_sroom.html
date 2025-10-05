@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>غرفة المعلمين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            font-family: 'Cairo', Tahoma, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px 10px 30px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: rgba(255,255,255,0.97);
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            padding: 30px 20px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            animation: containerPop 1s ease-out;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #5a2a83;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        nav ul.nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        nav ul.nav-tabs a {
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #e0c3fc;
+            color: #5a2a83;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        nav ul.nav-tabs a.active {
+            background: #9c27b0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1 1 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #ccc;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file {
+            flex: 1 1 auto;
+            position: relative;
+            padding: 12px 15px;
+            border: 1.5px solid #ccc;
+            border-radius: 12px;
+            background: #f3e5f5;
+            font-size: 1rem;
+            color: #5a2a83;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .custom-file:hover {
+            background: #e1bee7;
+        }
+
+        .file-name {
+            width: 100%;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            text-align: center;
+            color: #555;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #7e57c2, #ab47bc);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(171, 71, 188, 0.4);
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #ab47bc, #7e57c2);
+        }
+
+        ul {
+            list-style: disc inside;
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-top: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            color: #333;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 34px;
+            border-radius: 30px;
+            background: linear-gradient(to left, #5a2a83, #9c27b0);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(90, 42, 131, 0.3);
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.06);
+            background: linear-gradient(to left, #9c27b0, #5a2a83);
+        }
+
+        @keyframes containerPop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h2>غرفة المعلمين</h2>
+    <p style="text-align:center; color:#5a2a83; font-weight:700;">مرحباً بكم في غرفة المعلمين الإلكترونية</p>
+
+    <nav>
+      <ul class="nav-tabs">
+        <li><a href="#" data-tab="discussion" class="active">نقاش</a></li>
+        <li><a href="#" data-tab="files">ملفات</a></li>
+        <li><a href="#" data-tab="tasks">مهام</a></li>
+      </ul>
+    </nav>
+
+    <div id="discussion" class="tab-content active">
+      <form id="chat-form">
+        <input type="text" id="chat-input" placeholder="اكتب رسالتك..." />
+        <button type="submit">إرسال</button>
+      </form>
+      <ul id="chat-messages"></ul>
+    </div>
+
+    <div id="files" class="tab-content">
+      <form id="file-upload-form">
+        <label for="file-input" class="custom-file">اختر ملف</label>
+        <input type="file" id="file-input" required>
+        <div id="file-name" class="file-name"></div>
+        <button type="submit">رفع</button>
+      </form>
+      <ul id="file-list"></ul>
+    </div>
+
+    <div id="tasks" class="tab-content">
+      <form id="task-form">
+        <input type="text" id="task-input" placeholder="أدخل المهمة..." required>
+        <button type="submit">إضافة</button>
+      </form>
+      <ul id="task-list"></ul>
+    </div>
+
+    <a href="../index.html" class="back-btn">العودة</a>
+  </div>
+
+  <script>
+    document.querySelectorAll('.nav-tabs a').forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(box => box.classList.remove('active'));
+        document.getElementById(this.dataset.tab).classList.add('active');
+      });
+    });
+
+    document.getElementById('chat-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const list = document.getElementById('chat-messages');
+      if (input.value.trim()) {
+        const li = document.createElement('li');
+        li.textContent = input.value;
+        list.appendChild(li);
+        input.value = "";
+      }
+    });
+
+    const fileInput = document.getElementById('file-input');
+    const fileName = document.getElementById('file-name');
+    fileInput.addEventListener('change', () => {
+      fileName.textContent = fileInput.files.length > 0 ? fileInput.files[0].name : "";
+    });
+
+    document.getElementById('file-upload-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const list = document.getElementById('file-list');
+      if (fileInput.files.length > 0) {
+        const li = document.createElement('li');
+        li.textContent = fileInput.files[0].name;
+        list.appendChild(li);
+        fileInput.value = "";
+        fileName.textContent = "";
+      }
+    });
+
+    document.getElementById('task-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('task-input');
+      const list = document.getElementById('task-list');
+      if (input.value.trim()) {
+        const li = document.createElement('li');
+        li.textContent = input.value;
+        list.appendChild(li);
+        input.value = "";
+      }
+    });
+  </script>
+</body>
+</html>

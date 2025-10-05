@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  </div><meta charset="UTF-8" />
+  <title>غياب الطلاب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #5a2a83, #9c27b0);
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      padding: 24px 16px;
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+      direction: rtl;
+    }
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.8em;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .color-legend {
+      text-align: center;
+      font-size: 1em;
+      margin-bottom: 18px;
+      color: #ddd;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      user-select: none;
+    }
+    .color-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-circle {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+    }
+    .green { background-color: #28a745; }
+    .red { background-color: #dc3545; }
+    p {
+      text-align: center;
+      color: #e0d7ff;
+      margin-bottom: 20px;
+      font-size: 1em;
+      padding: 0 10px;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      width: 100%;
+    }
+    .table-wrapper table {
+      min-width: 600px;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      font-size: 0.9em;
+      word-break: break-word;
+      width: 100%;
+    }
+    th, td {
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    th {
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: bold;
+      font-size: 1em;
+      letter-spacing: 1px;
+      color: white;
+    }
+    tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.15);
+      transition: background 0.3s ease;
+      color: white;
+    }
+    td[contenteditable="true"] {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: black;
+    }
+    .edit-btn,
+    .save-btn,
+    .delete-btn,
+    .add-btn,
+    .toggle-excuse-btn {
+      background: #9c27b0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.9em;
+      margin: 2px;
+      box-shadow: 0 4px 12px rgba(156, 39, 176, 0.5);
+      transition: background 0.3s ease;
+    }
+    .edit-btn:hover,
+    .save-btn:hover,
+    .delete-btn:hover,
+    .add-btn:hover,
+    .toggle-excuse-btn:hover {
+      background: #7b1fa2;
+    }
+    .toggle-excuse-btn.green {
+      background: #28a745 !important;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.7);
+    }
+    .toggle-excuse-btn.red {
+      background: #dc3545 !important;
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.7);
+    }
+    .add-form {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      padding: 0 5px;
+    }
+    .add-form input,
+    .add-form select,
+    .add-form input[type="number"] {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: none;
+      font-family: 'Cairo', sans-serif;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      min-width: 140px;
+      flex: 1 1 140px;
+      box-sizing: border-box;
+    }
+    .add-form input::placeholder {
+      color: #ddd;
+    }
+    .group-row {
+      background: rgba(255, 255, 255, 0.1) !important;
+      font-weight: bold;
+      color: #ffe;
+      font-size: 1.1em;
+    }
+    .back-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: linear-gradient(90deg, #ab47bc, #8e24aa);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(171, 71, 188, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .back-btn:hover {
+      background: linear-gradient(90deg, #8e24aa, #ab47bc);
+      transform: scale(1.05);
+    }
+    .buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 12px 10px;
+        padding: 16px 12px;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      p {
+        font-size: 0.9em;
+      }
+      .add-form {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .add-form input,
+      .add-form select {
+        flex: 1 1 100%;
+        min-width: unset;
+      }
+      table, th, td {
+        font-size: 0.85em;
+      }
+      .back-btn {
+        padding: 10px 20px;
+        font-size: 0.95em;
+      }
+      .buttons-wrapper {
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>غياب الطلاب</h2>
+    
+    <div class="color-legend">
+      <span><span class="color-circle green"></span>الطالب لديه عذر</span>
+      <span><span class="color-circle red"></span>الطالب ليس لديه عذر</span>
+    </div>
+    
+    <p>قائمة الطلاب الغائبين وعدد الأيام الغياب وحالة العذر.</p>
+
+    <div style="text-align:center; margin-bottom:18px;">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="ابحث باسم الطالب..."
+        style="padding:8px 12px; border-radius:6px; border:none; font-family:'Cairo',sans-serif; font-size:1em; background:rgba(255,255,255,0.1); color:white; min-width:180px;"
+        oninput="filterTable()" />
+    </div>
+    <form class="add-form" id="addAbsenceForm" onsubmit="addAbsence(event)">
+      <input type="text" id="studentName" placeholder="اسم الطالب" required />
+      <select id="studentClass" required>
+      <option value="">اختر الصف</option>
+      <option value="أول ثانوي">أول ثانوي</option>
+      <option value="ثاني ثانوي">ثاني ثانوي</option>
+      <option value="ثالث ثانوي">ثالث ثانوي</option>
+      </select>
+      <input type="number" id="absenceDays" placeholder="عدد أيام الغياب" min="1" required />
+      <button type="submit" class="back-btn">إضافة</button>
+    </form>
+    <script>
+    function filterTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.trim();
+      const table = document.getElementById("absenceTable");
+      const trs = table.querySelectorAll("tbody tr");
+      let currentGroup = null;
+      trs.forEach(tr => {
+        if (tr.classList.contains("group-row")) {
+          currentGroup = tr;
+          tr.style.display = "";
+          return;
+        }
+        const nameTd = tr.querySelector("td");
+        if (!nameTd) return;
+        const name = nameTd.textContent || nameTd.innerText;
+        if (filter === "" || name.includes(filter)) {
+          tr.style.display = "";
+          if (currentGroup) currentGroup.style.display = "";
+        } else {
+          tr.style.display = "none";
+        }
+      });
+    }
+    </script>
+    </form>
+
+    <div class="table-wrapper">
+      <table id="absenceTable" aria-label="جدول غياب الطلاب">
+        <thead>
+          <tr>
+            <th>اسم الطالب</th>
+            <th>الصف</th>
+            <th>عدد أيام الغياب</th>
+            <th>حالة العذر</th>
+            <th>تعديل</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-row">
+            <td colspan="6">أول ثانوي</td>
+          </tr>
+          <tr>
+            <td contenteditable="false">عبدالله محمد</td>
+            <td contenteditable="false">أول ثانوي</td>
+            <td contenteditable="false">3</td>
+            <td>
+              <button class="toggle-excuse-btn red" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">غير معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+          <tr>
+            <td contenteditable="false">صالح خالد</td>
+            <td contenteditable="false">أول ثانوي</td>
+            <td contenteditable="false">1</td>
+            <td>
+              <button class="toggle-excuse-btn green" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+          <tr class="group-row">
+            <td colspan="6">ثاني ثانوي</td>
+          </tr>
+          <tr>
+            <td contenteditable="false">محمد العتيبي</td>
+            <td contenteditable="false">ثاني ثانوي</td>
+            <td contenteditable="false">2</td>
+            <td>
+              <button class="toggle-excuse-btn red" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">غير معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+          <tr>
+            <td contenteditable="false">ياسر عبدالله</td>
+            <td contenteditable="false">ثاني ثانوي</td>
+            <td contenteditable="false">1</td>
+            <td>
+              <button class="toggle-excuse-btn green" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+          <tr class="group-row">
+            <td colspan="6">ثالث ثانوي</td>
+          </tr>
+          <tr>
+            <td contenteditable="false">خالد يوسف</td>
+            <td contenteditable="false">ثالث ثانوي</td>
+            <td contenteditable="false">4</td>
+            <td>
+              <button class="toggle-excuse-btn red" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">غير معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+          <tr>
+            <td contenteditable="false">فيصل فهد</td>
+            <td contenteditable="false">ثالث ثانوي</td>
+            <td contenteditable="false">2</td>
+            <td>
+              <button class="toggle-excuse-btn green" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">معذور</button>
+            </td>
+            <td>
+              <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+              <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+            </td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="buttons-wrapper">
+  <a href="../index.html" class="back-btn">العودة</a>
+  <button onclick="downloadExcel()" class="back-btn" type="button">تحميل جدول Excel</button>
+  <input type="file" id="importFile" accept=".csv" style="display: none" onchange="importCSV(event)" />
+  <button class="back-btn" onclick="document.getElementById('importFile').click()">استيراد جدول Excel</button>
+</div>
+
+
+  <script>
+    function editRow(btn) {
+      const row = btn.closest("tr");
+      row.querySelectorAll('td[contenteditable]').forEach(td => td.contentEditable = "true");
+      btn.style.display = "none";
+      row.querySelector(".save-btn").style.display = "inline-block";
+    }
+
+    function saveRow(btn) {
+      const row = btn.closest("tr");
+      row.querySelectorAll('td[contenteditable]').forEach(td => td.contentEditable = "false");
+      btn.style.display = "none";
+      row.querySelector(".edit-btn").style.display = "inline-block";
+    }
+
+    function deleteRow(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+    }
+
+    function toggleExcuse(btn) {
+      if (btn.classList.contains("green")) {
+        btn.classList.remove("green");
+        btn.classList.add("red");
+        btn.textContent = "غير معذور";
+      } else {
+        btn.classList.remove("red");
+        btn.classList.add("green");
+        btn.textContent = "معذور";
+      }
+    }
+
+    function addAbsence(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById("studentName");
+      const classSelect = document.getElementById("studentClass");
+      const daysInput = document.getElementById("absenceDays");
+      const name = nameInput.value.trim();
+      const studentClass = classSelect.value.trim();
+      const absenceDays = daysInput.value.trim();
+      if (!name || !studentClass || !absenceDays) return;
+
+      const tbody = document.querySelector("#absenceTable tbody");
+      const groupRows = Array.from(tbody.querySelectorAll("tr.group-row"));
+      let insertAfterRow = null;
+
+      for (const groupRow of groupRows) {
+        if (groupRow.textContent.trim() === studentClass) {
+          insertAfterRow = groupRow;
+          let next = groupRow.nextElementSibling;
+          while (next && !next.classList.contains("group-row")) {
+            insertAfterRow = next;
+            next = next.nextElementSibling;
+          }
+          break;
+        }
+      }
+
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td contenteditable="false">${name}</td>
+        <td contenteditable="false">${studentClass}</td>
+        <td contenteditable="false">${absenceDays}</td>
+        <td>
+          <button class="toggle-excuse-btn red" onclick="toggleExcuse(this)" title="اضغط لتغيير حالة العذر">غير معذور</button>
+        </td>
+        <td>
+          <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+          <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+        </td>
+        <td>
+          <button class="delete-btn" onclick="deleteRow(this)">حذف</button>
+        </td>
+      `;
+
+      if (insertAfterRow) {
+        insertAfterRow.after(newRow);
+      } else {
+        tbody.appendChild(newRow);
+      }
+
+      nameInput.value = "";
+      classSelect.value = "";
+      daysInput.value = "";
+    }
+
+    function downloadExcel() {
+      const table = document.getElementById("absenceTable");
+      let csv = [];
+      // رؤوس الأعمدة (الاسم، الصف، عدد الأيام، حالة العذر)
+      const headers = Array.from(table.querySelectorAll("thead th"))
+        .slice(0, 4)
+        .map(th => `"${th.innerText.trim()}"`);
+      csv.push(headers.join(";"));
+
+      table.querySelectorAll("tbody tr").forEach(row => {
+        if (row.classList.contains("group-row")) return; // تجاهل رؤوس الصفوف
+        const cells = Array.from(row.querySelectorAll("td"))
+          .slice(0, 4)
+          .map(td => `"${td.innerText.replace(/"/g, '""').trim()}"`);
+        if (cells.length === 4) csv.push(cells.join(","));
+      });
+
+      const blob = new Blob(["\uFEFF" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "absence_list.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const contents = e.target.result;
+    const lines = contents.split("\n").filter(line => line.trim() !== "");
+    if (lines.length < 2) return;
+
+    const tbody = document.querySelector("#absenceTable tbody");
+    for (let i = 1; i < lines.length; i++) {
+      const [name, studentClass, absenceDays, excuse] = lines[i].split(",");
+
+      const newRow = document.createElement("tr");
+      const excuseClass = excuse.trim() === "معذور" ? "green" : "red";
+      const excuseText = excuse.trim();
+
+      newRow.innerHTML = `
+        <td contenteditable="false">${name.trim()}</td>
+        <td contenteditable="false">${studentClass.trim()}</td>
+        <td contenteditable="false">${absenceDays.trim()}</td>
+        <td>
+          <button class="toggle-excuse-btn ${excuseClass}" onclick="toggleExcuse(this)">${excuseText}</button>
+        </td>
+        <td>
+          <button class="edit-btn" onclick="editRow(this)">تعديل</button>
+          <button class="save-btn" onclick="saveRow(this)" style="display:none;">حفظ</button>
+        </td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">حذف</button></td>
+      `;
+
+      tbody.appendChild(newRow);
+    }
+  };
+  reader.readAsText(file, "UTF-8");
+}
+  </script>
+</body>
+</html>

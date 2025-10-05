@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>إرسال الرسائل لأولياء الأمور</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* عام */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #5a2a83 0%, #9c27b0 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 15px;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(10px);
+      max-width: 500px;
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      padding: 30px 25px;
+      color: #fff;
+      text-align: right;
+    }
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    label {
+      font-weight: 700;
+      display: block;
+      margin: 15px 0 6px 0;
+      color: #e0d7ff;
+      font-size: 1em;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+      font-family: 'Cairo', sans-serif;
+      background: rgba(255,255,255,0.15);
+      color: #111;
+      resize: vertical;
+      min-height: 90px;
+      transition: background 0.3s ease;
+    }
+    input[type="text"]:focus,
+    textarea:focus {
+      background: rgba(255,255,255,0.3);
+      outline: none;
+    }
+    textarea {
+      min-height: 110px;
+    }
+    #warningMessage {
+      display: none;
+      margin-top: 10px;
+      color: #ff6b6b;
+      font-weight: 700;
+      text-align: center;
+      font-size: 0.95em;
+    }
+    .btn-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .styled-btn {
+      flex: 1 1 140px;
+      max-width: 220px;
+      padding: 12px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.2s ease, background 0.3s ease;
+      color: white;
+      user-select: none;
+    }
+    .styled-btn:hover {
+      transform: scale(1.05);
+    }
+    .whatsapp-btn {
+      background: linear-gradient(90deg, #25D366 0%, #128C7E 100%);
+      box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5);
+    }
+    .whatsapp-btn:hover {
+      background: linear-gradient(90deg, #1ebe5d 0%, #0e776a 100%);
+      box-shadow: 0 8px 20px rgba(30, 160, 90, 0.7);
+    }
+    .sms-btn {
+      background: linear-gradient(90deg, #42a5f5 0%, #1976d2 100%);
+      box-shadow: 0 6px 15px rgba(66, 165, 245, 0.5);
+    }
+    .sms-btn:hover {
+      background: linear-gradient(90deg, #1e88e5 0%, #1565c0 100%);
+      box-shadow: 0 8px 20px rgba(30, 100, 190, 0.7);
+    }
+    .back-btn {
+      margin: 30px auto 0 auto;
+      background: #ede7f6cc;
+      color: #5a2a83;
+      max-width: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1em;
+      border-radius: 30px;
+      padding: 12px 0;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    .back-btn:hover {
+      background-color: #d1c4e9cc;
+      color: #3a1d6e;
+    }
+    .bi {
+      font-size: 1.3rem;
+    }
+
+    /* استجابة الهواتف */
+    @media (max-width: 480px) {
+      .btn-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .styled-btn {
+        max-width: 100%;
+      }
+      .container {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h2>إرسال رسالة لولي الأمر</h2>
+    <form id="parentForm" autocomplete="off" novalidate>
+      <label for="parentName">اسم ولي الأمر:</label>
+      <input type="text" id="parentName" name="parentName" placeholder="أدخل اسم ولي الأمر" required>
+
+      <label for="parentPhone">رقم الجوال:</label>
+      <input type="text" id="parentPhone" name="parentPhone" placeholder="05XXXXXXXX" required>
+
+      <label for="message">الرسالة:</label>
+      <textarea id="message" name="message" placeholder="اكتب الرسالة هنا..." required></textarea>
+
+      <div id="warningMessage" role="alert" aria-live="assertive"></div>
+
+      <div class="btn-group">
+        <button type="button" class="styled-btn whatsapp-btn" onclick="sendViaWhatsApp()" aria-label="إرسال رسالة واتساب">
+          <i class="bi bi-whatsapp"></i> إرسال واتساب
+        </button>
+        <button type="button" class="styled-btn sms-btn" onclick="sendViaSMS()" aria-label="إرسال رسالة نصية">
+          <i class="bi bi-chat-dots"></i> إرسال SMS
+        </button>
+      </div>
+
+      <a href="../index.html" class="back-btn" aria-label="العودة إلى الصفحة الرئيسية">
+        <i class="bi bi-arrow-right-circle"></i> العودة
+      </a>
+    </form>
+  </div>
+
+  <script>
+    function isValidPhone(phone) {
+      return phone.length === 10 && /^05\d{8}$/.test(phone);
+    }
+
+    function showWarning(msg) {
+      const warning = document.getElementById('warningMessage');
+      warning.textContent = msg;
+      warning.style.display = 'block';
+    }
+
+    function clearWarning() {
+      const warning = document.getElementById('warningMessage');
+      warning.textContent = '';
+      warning.style.display = 'none';
+    }
+
+    function getInputData() {
+      return {
+        name: document.getElementById('parentName').value.trim(),
+        phone: document.getElementById('parentPhone').value.trim(),
+        message: document.getElementById('message').value.trim()
+      };
+    }
+
+    function sendViaWhatsApp() {
+      const { name, phone, message } = getInputData();
+      if (!name || !phone || !message || !isValidPhone(phone)) {
+        showWarning("يرجى تعبئة جميع الحقول بشكل صحيح.");
+        return;
+      }
+      clearWarning();
+      const intlPhone = "966" + phone.slice(1);
+      const encodedMsg = encodeURIComponent(message);
+      const waUrl = `https://wa.me/${intlPhone}?text=${encodedMsg}`;
+      window.open(waUrl, '_blank');
+    }
+
+    function sendViaSMS() {
+      const { name, phone, message } = getInputData();
+      if (!name || !phone || !message || !isValidPhone(phone)) {
+        showWarning("يرجى تعبئة جميع الحقول بشكل صحيح.");
+        return;
+      }
+      clearWarning();
+      const encodedMsg = encodeURIComponent(message);
+      const smsUrl = `sms:${phone}?body=${encodedMsg}`;
+      window.open(smsUrl, '_self');
+    }
+  </script>
+</body>
+</html>
