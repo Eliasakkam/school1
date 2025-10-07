@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>بصمة الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f6fa 0%, #dff9fb 100%);
+            font-family: 'Cairo', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: auto; /* السماح بالتمرير */
+        }
+        .fingerprint-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(44,62,80,0.12), 0 1px 6px #44bd32a0;
+            padding: 32px 18px 18px 18px;
+            text-align: center;
+            width: 320px;
+            position: relative;
+            animation: fadeInUp 0.8s cubic-bezier(.42,0,.58,1);
+            max-height: 90vh; /* تحديد أقصى ارتفاع */
+            overflow-y: auto; /* السماح بالتمرير داخل الحاوية */
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .fingerprint-icon {
+            width: 60px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 3px 12px #44bd3240);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.08);}
+        }
+        h2 {
+            margin-bottom: 12px;
+            color: #222;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #dff9fb80;
+        }
+        p {
+            color: #555;
+            margin-bottom: 18px;
+            font-size: 0.95em;
+        }
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .status-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid #eee;
+            box-shadow: 0 2px 8px #dff9fb80;
+            transition: background 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .status-indicator.green {
+            background: radial-gradient(circle at 70% 30%, #44bd32 70%, #20bf6b 100%);
+            box-shadow: 0 0 8px #44bd32, 0 2px 8px #20bf6b40;
+        }
+        .status-indicator.red {
+            background: radial-gradient(circle at 70% 30%, #e84118 70%, #fd9644 100%);
+            box-shadow: 0 0 8px #e84118, 0 2px 8px #fd964440;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+        button {
+            background: linear-gradient(90deg, #2d98da 70%, #3867d6 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 0.95em;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #3867d640;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            outline: none;
+            margin: 0 0 0 0;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            color: #888;
+        }
+        button:hover:not(:disabled) {
+            background: linear-gradient(90deg, #3867d6 70%, #2d98da 100%);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px #3867d680;
+        }
+        .attendance-list {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .attendance-group {
+            width: 48%;
+            background: linear-gradient(120deg, #f1f2f6 80%, #dff9fb 100%);
+            border-radius: 8px;
+            padding: 8px 4px 4px 4px;
+            box-shadow: 0 2px 8px #dff9fb40;
+            animation: fadeIn 1.2s cubic-bezier(.42,0,.58,1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+        .attendance-group h3 {
+            margin: 0 0 6px 0;
+            font-size: 0.98em;
+            color: #222;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .attendance-group ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .attendance-group li {
+            padding: 3px 0;
+            color: #555;
+            font-size: 0.93em;
+            transition: color 0.2s;
+        }
+        .attendance-group.present li {
+            color: #44bd32;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .attendance-group.absent li {
+            color: #e84118;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .home-btn {
+            background: linear-gradient(90deg, #7f8fa6 70%, #718093 100%);
+            margin-bottom: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            padding: 7px 14px;
+            box-shadow: 0 2px 8px #71809340;
+            transition: background 0.2s, transform 0.2s;
+            font-size: 0.95em;
+        }
+        .home-btn:hover:not(:disabled) {
+            background: linear-gradient(90deg, #718093 70%, #7f8fa6 100%);
+            transform: scale(1.04);
+        }
+        .timer-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 6px;
+        }
+        .timer-label {
+            font-size: 0.95em;
+            color: #222;
+            margin-bottom: 2px;
+        }
+        .timer-input {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid #dff9fb;
+            font-size: 0.95em;
+            width: 120px;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+        .timer-display {
+            font-size: 1.05em;
+            color: #3867d6;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+    </style>
+    <script>
+        // مؤقت زمني لتشغيل/إيقاف البصمة تلقائياً
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.fingerprint-container');
+            const timerGroup = document.createElement('div');
+            timerGroup.className = 'timer-group';
+
+            timerGroup.innerHTML = `
+                <span class="timer-label">حدد وقت بدء البصمة:</span>
+                <input type="time" id="startTime" class="timer-input">
+                <span class="timer-label">حدد وقت إيقاف البصمة:</span>
+                <input type="time" id="endTime" class="timer-input">
+                <button id="setTimerBtn" style="background:#3867d6;margin-top:6px;">تفعيل المؤقت</button>
+                <span id="timerDisplay" class="timer-display"></span>
+            `;
+            container.insertBefore(timerGroup, container.children[2]);
+
+            const startTimeInput = document.getElementById('startTime');
+            const endTimeInput = document.getElementById('endTime');
+            const setTimerBtn = document.getElementById('setTimerBtn');
+            const timerDisplay = document.getElementById('timerDisplay');
+            let timerInterval = null;
+
+            setTimerBtn.onclick = function() {
+                if (!startTimeInput.value || !endTimeInput.value) {
+                    timerDisplay.textContent = 'يرجى تحديد وقتي البدء والإيقاف.';
+                    return;
+                }
+                timerDisplay.textContent = 'تم تفعيل المؤقت.';
+                clearInterval(timerInterval);
+                timerInterval = setInterval(checkTimer, 1000);
+                checkTimer();
+            };
+
+            function checkTimer() {
+                const now = new Date();
+                const startParts = startTimeInput.value.split(':');
+                const endParts = endTimeInput.value.split(':');
+                if (startParts.length !== 2 || endParts.length !== 2) return;
+
+                const start = new Date(now);
+                start.setHours(+startParts[0], +startParts[1], 0, 0);
+                const end = new Date(now);
+                end.setHours(+endParts[0], +endParts[1], 0, 0);
+
+                if (now >= start && now < end) {
+                    // شغل البصمة
+                    if (window.startBtn && !window.startBtn.disabled) window.startBtn.click();
+                    timerDisplay.textContent = 'البصمة تعمل الآن حتى ' + endTimeInput.value;
+                } else if (now >= end) {
+                    // أوقف البصمة
+                    if (window.endBtn && !window.endBtn.disabled) window.endBtn.click();
+                    timerDisplay.textContent = 'انتهى وقت البصمة.';
+                    clearInterval(timerInterval);
+                } else {
+                    timerDisplay.textContent = 'بانتظار وقت البدء...';
+                }
+            }
+        });
+    </script>
+    <div class="fingerprint-container">
+        <a class="home-btn" href="/index.html" style="display: inline-block; text-decoration: none; color: #fff;">
+            العودة إلى الصفحة الرئيسية
+        </a>
+        <img class="fingerprint-icon" src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png" alt="بصمة">
+        <div class="status">
+            <span id="studentStatus" class="status-indicator green" title="استلام طلبات الطلاب"></span>
+            <span id="teacherStatus" class="status-indicator green" title="استلام طلبات المعلمين"></span>
+        </div>
+        <h2>تسجيل الدخول بالبصمة</h2>
+        <p id="statusText">يرجى وضع إصبعك على جهاز البصمة لإتمام عملية الدخول.</p>
+        <div class="button-group">
+            <button id="startBtn">بدء استقبال البصمة</button>
+            <button id="endBtn">إيقاف استقبال البصمة</button>
+        </div>
+        <div class="attendance-list">
+            <div class="attendance-group present">
+                <h3>الحاضرون</h3>
+                <ul id="presentList">
+                    <li>محمد أحمد</li>
+                    <li>سارة علي</li>
+                    <li>خالد يوسف</li>
+                    <li>أ. فاطمة الزهراء</li>
+                </ul>
+            </div>
+            <div class="attendance-group absent">
+                <h3>الغائبون</h3>
+                <ul id="absentList">
+                    <li>أحمد سعيد</li>
+                    <li>منى حسن</li>
+                    <li>أ. عبدالله عمر</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        const studentStatus = document.getElementById('studentStatus');
+        const teacherStatus = document.getElementById('teacherStatus');
+        const statusText = document.getElementById('statusText');
+        const endBtn = document.getElementById('endBtn');
+        const startBtn = document.getElementById('startBtn');
+
+        endBtn.onclick = function() {
+            studentStatus.classList.remove('green');
+            teacherStatus.classList.remove('green');
+            studentStatus.classList.add('red');
+            teacherStatus.classList.add('red');
+            statusText.textContent = 'انتهى وقت استقبال طلبات البصمة.';
+            endBtn.disabled = true;
+            startBtn.disabled = false;
+        };
+
+        startBtn.onclick = function() {
+            studentStatus.classList.remove('red');
+            teacherStatus.classList.remove('red');
+            studentStatus.classList.add('green');
+            teacherStatus.classList.add('green');
+            statusText.textContent = 'يرجى وضع إصبعك على جهاز البصمة لإتمام عملية الدخول.';
+            startBtn.disabled = true;
+            endBtn.disabled = false;
+        };
+
+        // زر الاتصال بجهاز البصمة لاسلكي وسلكي
+        const connectWirelessBtn = document.createElement('button');
+        connectWirelessBtn.textContent = 'اتصال لاسلكي بالبصمة';
+        connectWirelessBtn.style.background = '#20bf6b';
+        connectWirelessBtn.style.marginBottom = '8px';
+        connectWirelessBtn.onclick = function() {
+            statusText.textContent = 'جارٍ الاتصال بجهاز البصمة لاسلكياً...';
+            setTimeout(() => {
+                statusText.textContent = 'تم الاتصال لاسلكياً بجهاز البصمة!';
+            }, 1200);
+        };
+
+        const connectWiredBtn = document.createElement('button');
+        connectWiredBtn.textContent = 'اتصال سلكي بالبصمة';
+        connectWiredBtn.style.background = '#fd9644';
+        connectWiredBtn.style.marginBottom = '8px';
+        connectWiredBtn.onclick = function() {
+            statusText.textContent = 'جارٍ الاتصال بجهاز البصمة سلكياً...';
+            setTimeout(() => {
+                statusText.textContent = 'تم الاتصال سلكياً بجهاز البصمة!';
+            }, 1200);
+        };
+
+        // زر تحميل أسماء الحاضرين والغائبين
+        const downloadNamesBtn = document.createElement('button');
+        downloadNamesBtn.textContent = 'تحميل أسماء الحاضرين والغائبين';
+        downloadNamesBtn.style.background = '#2d98da';
+        downloadNamesBtn.style.marginBottom = '8px';
+        downloadNamesBtn.onclick = function() {
+            // جمع الأسماء
+            const presentNames = Array.from(document.querySelectorAll('#presentList li')).map(li => li.textContent.trim());
+            const absentNames = Array.from(document.querySelectorAll('#absentList li')).map(li => li.textContent.trim());
+            let content = 'الحاضرون:\n' + presentNames.join('\n') + '\n\nالغائبون:\n' + absentNames.join('\n');
+            // إنشاء ملف وتحميله
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'attendance.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
+        // إضافة الأزرار قبل مجموعة الأزرار الأصلية
+        const buttonGroup = document.querySelector('.button-group');
+        buttonGroup.parentNode.insertBefore(downloadNamesBtn, buttonGroup);
+        buttonGroup.parentNode.insertBefore(connectWirelessBtn, buttonGroup);
+        buttonGroup.parentNode.insertBefore(connectWiredBtn, buttonGroup);
+
+        // Initial state: startBtn disabled, endBtn enabled
+        startBtn.disabled = true;
+        endBtn.disabled = false;
+    </script>
+</body>
+</html>
