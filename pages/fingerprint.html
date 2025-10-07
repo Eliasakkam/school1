@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>بصمة الدخول</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="manifest" href="/manifest.json">
     <style>
         html, body {
             height: 100%;
@@ -16,7 +18,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: auto; /* السماح بالتمرير */
+            overflow: auto;
         }
         .fingerprint-container {
             background: rgba(255,255,255,0.95);
@@ -24,11 +26,52 @@
             box-shadow: 0 6px 24px rgba(44,62,80,0.12), 0 1px 6px #44bd32a0;
             padding: 32px 18px 18px 18px;
             text-align: center;
-            width: 320px;
+            width: 340px;
+            max-width: 98vw;
             position: relative;
             animation: fadeInUp 0.8s cubic-bezier(.42,0,.58,1);
-            max-height: 90vh; /* تحديد أقصى ارتفاع */
-            overflow-y: auto; /* السماح بالتمرير داخل الحاوية */
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @media (max-width: 480px) {
+            .fingerprint-container {
+                width: 98vw;
+                padding: 18px 6px 12px 6px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px #44bd3240;
+                max-height: 98vh;
+            }
+            .attendance-list {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .attendance-group {
+                width: 100%;
+                padding: 6px 2px 2px 2px;
+            }
+            h2 {
+                font-size: 1em;
+            }
+            .fingerprint-icon {
+                width: 44px;
+                margin-bottom: 12px;
+            }
+            .status-indicator {
+                width: 18px;
+                height: 18px;
+            }
+            button, .home-btn {
+                font-size: 0.92em;
+                padding: 7px 10px;
+            }
+            .timer-input {
+                width: 90px;
+                font-size: 0.92em;
+            }
+            .options-row {
+                flex-direction: column;
+                gap: 6px;
+            }
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(40px);}
@@ -80,6 +123,13 @@
         .status-indicator.red {
             background: radial-gradient(circle at 70% 30%, #e84118 70%, #fd9644 100%);
             box-shadow: 0 0 8px #e84118, 0 2px 8px #fd964440;
+        }
+        .options-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
         }
         .button-group {
             display: flex;
