@@ -418,6 +418,56 @@
             URL.revokeObjectURL(url);
         };
 
+        // زر تصدير مهيأ لنظام نور (CSV بصيغة بسيطة: الاسم,الحالة)
+        const exportToNoorBtn = document.createElement('button');
+        exportToNoorBtn.textContent = 'تصدير إلى نظام نور';
+        exportToNoorBtn.style.background = '#6a89cc';
+        exportToNoorBtn.style.marginBottom = '8px';
+        exportToNoorBtn.onclick = function() {
+            // افتح موقع نور فوراً في تبويب جديد
+            const noorUrl = 'https://noor.moe.gov.sa/';
+            window.open(noorUrl, '_blank');
+
+            // جمع الأسماء (سيُستخدمان لاحقاً لإنشاء ملف CSV)
+            const presentNames = Array.from(document.querySelectorAll('#presentList li')).map(li => li.textContent.trim());
+            const absentNames = Array.from(document.querySelectorAll('#absentList li')).map(li => li.textContent.trim());
+            // عمل مصفوفة من الأسطر بصيغة CSV: الاسم,الحالة
+            const rows = [];
+            rows.push('\uFEFFالاسم,الحالة'); // \uFEFF لإضافة BOM لتوافق Excel مع UTF-8
+            presentNames.forEach(name => rows.push(`${escapeCsv(name)},حاضر`));
+            absentNames.forEach(name => rows.push(`${escapeCsv(name)},غائب`));
+            const csvContent = rows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'noor_import.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // إعلام المستخدم
+            statusText.textContent = 'تم إنشاء ملف التصدير (noor_import.csv).';
+            setTimeout(() => { statusText.textContent = 'يرجى وضع إصبعك على جهاز البصمة لإتمام عملية الدخول.'; }, 2500);
+        };
+
+        // دالة مساعدة لحماية القيم في CSV إذا احتوت فواصل أو علامات اقتباس
+        function escapeCsv(value) {
+            if (value == null) return '';
+            const str = String(value);
+            if (str.includes('"') || str.includes(',') || str.includes('\n')) {
+            return '"' + str.replace(/"/g, '""') + '"';
+            }
+            return str;
+        }
+
+        // إدراج زر التصدير بجانب مجموعة الأزرار (قبل مجموعة الأزرار الأصلية)
+        const btnGroup = document.querySelector('.button-group');
+        if (btnGroup && btnGroup.parentNode) {
+            btnGroup.parentNode.insertBefore(exportToNoorBtn, btnGroup);
+        }
+
         // إضافة الأزرار قبل مجموعة الأزرار الأصلية
         const buttonGroup = document.querySelector('.button-group');
         buttonGroup.parentNode.insertBefore(downloadNamesBtn, buttonGroup);
