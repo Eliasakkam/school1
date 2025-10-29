@@ -240,30 +240,78 @@
     }
 
     // توليد حساب مؤقت
-    function generateTempAccount() {
-      const username = "user" + Math.floor(Math.random() * 10000);
-      const password = Math.random().toString(36).slice(-8);
+function generateTempAccount() {
+  const username = "user" + Math.floor(Math.random() * 10000);
+  const password = Math.random().toString(36).slice(-8);
 
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      users.push({ username, password });
-      localStorage.setItem("users", JSON.stringify(users));
+  // حفظ الحساب في localStorage
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  users.push({ username, password });
+  localStorage.setItem("users", JSON.stringify(users));
 
-      document.getElementById("tempData").innerHTML = `
+  // إنشاء النافذة
+  const tempModal = document.getElementById("tempModal");
+  tempModal.innerHTML = `
+    <div id="tempBox" style="
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: right;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transition: all 1s ease;
+      opacity: 1;
+      position: relative;
+    ">
+      <div id="tempData">
         👤 <strong>اسم المستخدم:</strong> ${username}<br>
         🔐 <strong>كلمة المرور:</strong> ${password}
-      `;
-      document.getElementById("tempModal").style.display = "flex";
-    }
+      </div>
+      <div id="countdownDisplay" style="margin-top:10px; opacity:0.7; text-align:center;">
+        الوقت المتبقي: 60 ثانية
+      </div>
+    </div>
+  `;
+  tempModal.style.cssText = `
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: all 1s ease;
+  `;
 
-    function copyTempData() {
-      const text = document.getElementById("tempData").innerText;
-      navigator.clipboard.writeText(text).then(() => alert("✅ تم نسخ البيانات!"));
-    }
+  // عرض النافذة
+  tempModal.style.display = "flex";
 
-    function closeModal() {
-      document.getElementById("tempModal").style.display = "none";
+  // العد التنازلي
+  let countdown = 60;
+  const countdownDisplay = document.getElementById("countdownDisplay");
+  const countdownInterval = setInterval(() => {
+    countdown--;
+    countdownDisplay.innerText = `الوقت المتبقي: ${countdown} ثانية`;
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      closeModal();
+      alert("⏰ انتهت المدة، يجب عليك طلب حساب مؤقت جديد.");
     }
-  </script>
+  }, 1000);
 
-</body>
-</html>
+  // بعد ثانيتين يتحرك لأعلى يمين بخفه
+  setTimeout(() => {
+    const box = document.getElementById("tempBox");
+    box.style.transform = "translate(250px, -250px)";
+    box.style.opacity = "0.7";
+    box.style.scale = "0.9";
+    tempModal.style.background = "transparent";
+  }, 2000);
+}
+
+function closeModal() {
+  const tempModal = document.getElementById("tempModal");
+  tempModal.innerHTML = "";
+  tempModal.style.display = "none";
+}
+</script>
