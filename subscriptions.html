@@ -7,177 +7,185 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <style>
-    body {
-      background: linear-gradient(135deg, #5a2a83 0%, #9c27b0 100%);
-      font-family: 'Cairo', sans-serif;
-      padding: 30px 20px;
-      text-align: center;
-      color: #fff;
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
+:root{
+  --bg-dark: #1E40AF; /* أزرق غامق */
+  --bg-light: #3B82F6; /* أزرق نور فاتح */
+  --card-bg: rgba(255,255,255,0.08); /* شبه شفاف */
+  --accent-blue: #2563EB; /* أزرق للأزرار */
+  --accent-green: #10B981; /* أخضر للتفعيل */
+  --text-light: #FFFFFF;
+  --text-muted: #D1E9FF;
+  --badge-gold: #FBBF24;
+  --badge-red: #EF4444;
+}
 
-    h1 {
-      margin-bottom: 40px;
-      font-weight: 700;
-      font-size: 2.5rem;
-      color: #e0d7f3;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
+/* عام */
+* { box-sizing: border-box; }
+body {
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background: linear-gradient(135deg, #2E2E2E, #1B1B1B); /* الخلفية الرمادية الفخمة */
+  color: #FFFFFF;
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:30px 20px;
+  text-align:center;
+}
 
-    .plans-container {
-      display: flex;
-      flex-wrap: nowrap; /* تعديل: منع التفاف البطاقات في الشاشات الكبيرة */
-      justify-content: center;
-      gap: 25px;
-      max-width: 960px;
-      width: 100%;
-    }
+/* العنوان */
+h1 {
+  margin-bottom: 40px;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: var(--text-light);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
 
-    @media (max-width: 960px) {
-      .plans-container {
-        flex-wrap: wrap; /* السماح بالالتفاف فقط في الشاشات الصغيرة */
-      }
-    }
+/* حاوية البطاقات */
+.plans-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 25px;
+  max-width: 960px;
+  width: 100%;
+}
+@media (max-width: 960px) {
+  .plans-container { flex-wrap: wrap; }
+}
 
-    .plan {
-      position: relative;
-      background: #ffffff22;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      padding: 25px 20px 35px 20px;
-      width: 260px;
-      transition: transform 0.3s ease, background 0.3s ease;
-      color: #f0e9ff;
-      border: 1px solid #7e5299;
-      text-align: right;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+/* البطاقة */
+.plan {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  padding: 25px 20px 35px 20px;
+  width: 260px;
+  transition: transform 0.3s ease, background 0.3s ease;
+  color: var(--text-light);
+  border: 1px solid #3B82F6;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.plan:hover {
+  transform: scale(1.05);
+  background: rgba(59,130,246,0.4);
+  border-color: #60A5FA;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+}
 
-    .plan:hover {
-      transform: scale(1.05);
-      background: #ffffff44;
-      box-shadow: 0 6px 30px rgba(0,0,0,0.5);
-      border-color: #b284d8;
-      color: #fff;
-    }
+/* نصوص البطاقة */
+.plan h2 {
+  font-size: 26px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #BFDBFE;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+.plan p {
+  font-size: 15px;
+  color: #DBEAFE;
+  margin-bottom: 25px;
+  min-height: 80px;
+  line-height: 1.6;
+  flex-grow: 1;
+}
 
-    .plan h2 {
-      font-size: 26px;
-      margin-bottom: 12px;
-      font-weight: 700;
-      color: #d1b8ff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
+/* الأزرار */
+.plan button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  transition: background 0.3s ease;
+  color: var(--text-light);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+.subscribe-btn {
+  background: linear-gradient(90deg, #3B82F6 0%, #1E40AF 100%);
+}
+.subscribe-btn:hover {
+  background: linear-gradient(90deg, #2563EB 0%, #1E3A8A 100%);
+}
+.activate-btn {
+  background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+}
+.activate-btn:hover {
+  background: linear-gradient(90deg, #059669 0%, #047857 100%);
+}
 
-    .plan p {
-      font-size: 15px;
-      color: #e6dfffcc;
-      margin-bottom: 25px;
-      min-height: 80px;
-      line-height: 1.6;
-      flex-grow: 1;
-    }
+/* أنواع البطاقات */
+.basic { border-top:6px solid #9CA3AF; } /* رمادي */
+.premium { border-top:6px solid #3B82F6; } /* أزرق */
+.gold { border-top:6px solid #FBBF24; } /* ذهبي */
 
-    .plan button {
-      display: block;
-      width: 100%;
-      margin: 8px 0;
-      padding: 12px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      font-family: 'Cairo', sans-serif;
-      font-weight: 700;
-      transition: background 0.3s ease;
-      color: #fff;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    }
+/* شارات */
+.badge {
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  background-color: var(--badge-gold);
+  color: #333;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
 
-    .subscribe-btn {
-      background: linear-gradient(90deg, #42a5f5 0%, #1976d2 100%);
-    }
+/* رابط العودة */
+.back-link {
+  display: inline-block;
+  margin-top: 50px;
+  padding: 14px 28px;
+  background-color: rgba(255,255,255,0.2);
+  color: var(--bg-dark);
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: max-content;
+}
+.back-link:hover {
+  background-color: rgba(255,255,255,0.3);
+  color: #1E40AF;
+}
 
-    .subscribe-btn:hover {
-      background: linear-gradient(90deg, #1e88e5 0%, #1565c0 100%);
-    }
+/* Media Queries */
+@media (max-width: 700px) {
+  .plans-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .plan { width: 90%; max-width: 400px; }
+}
+</style>
 
-    .activate-btn {
-      background: linear-gradient(90deg, #ff9800 0%, #f57c00 100%);
-    }
-
-    .activate-btn:hover {
-      background: linear-gradient(90deg, #fb8c00 0%, #ef6c00 100%);
-    }
-
-    .basic { border-top: 6px solid #9e9e9e; }
-    .premium { border-top: 6px solid #ff9800; }
-    .gold { border-top: 6px solid #ffc107; }
-
-    .badge {
-      position: absolute;
-      top: -14px;
-      left: -14px;
-      background-color: #ffeb3b;
-      color: #333;
-      font-size: 13px;
-      font-weight: bold;
-      padding: 6px 12px;
-      border-radius: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 50px;
-      padding: 14px 28px;
-      background-color: #ede7f6cc;
-      color: #5a2a83;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 700;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-      transition: background-color 0.3s ease, color 0.3s ease;
-      width: max-content;
-    }
-
-    .back-link:hover {
-      background-color: #d1c4e9cc;
-      color: #3a1d6e;
-    }
-
-    @media (max-width: 700px) {
-      .plans-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .plan {
-        width: 90%;
-        max-width: 400px;
-      }
-    }
-  </style>
-
-  <script>
-    function activateWithCode() {
-      const code = prompt("أدخل كود التفعيل:");
-      if (code === "elias207") {
-        localStorage.setItem("isUnlocked", "true");
-        alert("✅ تم تفعيل النسخة الكاملة!");
-        window.location.href = "../index.html";
-      } else {
-        alert("❌ الكود غير صحيح.");
-      }
-    }
-  </script>
+<script>
+function activateWithCode() {
+  const code = prompt("أدخل كود التفعيل:");
+  if (code === "elias207") {
+    localStorage.setItem("isUnlocked", "true");
+    alert("✅ تم تفعيل النسخة الكاملة!");
+    window.location.href = "../index.html";
+  } else {
+    alert("❌ الكود غير صحيح.");
+  }
+}
+</script>
 </head>
 <body>
   <h1>أنواع الاشتراكات</h1>

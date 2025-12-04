@@ -6,160 +6,179 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <style>
-    body {
-      background: linear-gradient(135deg, #5a2a83, #9c27b0);
-      font-family: 'Cairo', sans-serif;
-      padding: 20px 10px;
-      text-align: center;
-      margin: 0;
-    }
-    .box {
-      max-width: 400px;
-      width: 100%;
-      margin: auto;
-      background: #ffffff;
-      padding: 30px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-    }
-    h2 {
-      color: #3f51b5;
-      margin-bottom: 20px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      font-size: 1.8rem;
-    }
-    input, select, button {
-      width: 100%;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-      font-size: 16px;
-    }
-    input, select {
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      transition: border-color 0.3s ease;
-    }
-    input:focus, select:focus {
-      border-color: #3f51b5;
-      outline: none;
-    }
-    button {
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      box-shadow: 0 0 12px;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      margin-top: 10px;
-    }
-    #submitBtn {
-      background-color: #9c27b0;
-      color: white;
-      box-shadow: 0 0 12px #9c27b0;
-    }
-    #submitBtn:hover {
-      filter: brightness(85%);
-    }
-    #bankTransferBtn {
-      background-color: #9e9e9e;
-      color: white;
-      box-shadow: 0 0 12px #9e9e9e;
-    }
-    #bankTransferBtn.active-basic {
-      background-color: #9e9e9e;
-    }
-    #bankTransferBtn.active-premium {
-      background-color: #3f51b5;
-    }
-    #bankTransferBtn.active-gold {
-      background-color: #d4af37;
-      color: black;
-    }
-    #bankTransferInfo {
-      display: none;
-      text-align: right;
-      margin-top: 15px;
-      background: #f0f0f0;
-      padding: 15px;
-      border-radius: 8px;
-      color: #333;
-    }
-    #customDurationContainer {
-      display: none;
-      margin-top: 10px;
-    }
-    #customDurationInput {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-family: 'Cairo', sans-serif;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    .price-display {
-      margin: 8px 0;
-      font-size: 16px;
-      color: #333;
-      font-weight: bold;
-    }
-    #calculationDetails {
-      display: none;
-      margin-top: 8px;
-      padding: 10px;
-      background: #e8e8e8;
-      border-radius: 8px;
-      text-align: right;
-      font-size: 14px;
-      color: #222;
-      white-space: pre-line;
-      font-family: monospace, 'Cairo', sans-serif;
-    }
-    #toggleCalcBtn {
-      margin-top: 4px;
-      background-color: #555;
-      color: white;
-      font-size: 14px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      box-shadow: none;
-    }
-    #toggleCalcBtn:hover {
-      background-color: #444;
-    }
-    #backBtn {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #3f51b5;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-      background: #e3e3e3;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-    }
-    #backBtn:hover {
-      background-color: #d0d0d0;
-    }
-    .upload-label {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 12px;
-      width: 100%;
-      text-align: center;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 10px;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-  </style>
+body {
+  background: linear-gradient(135deg, #2E2E2E, #1B1B1B); /* الخلفية الرمادية الفخمة */
+  font-family: 'Cairo', sans-serif;
+  padding: 20px 10px;
+  text-align: center;
+  margin: 0;
+}
+
+.box {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  background: #ffffff11; /* شبه شفاف */
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  color: #fff;
+}
+
+h2 {
+  color: #bfdbfe; /* أزرق فاتح للنص */
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+}
+
+input, select, button {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+}
+
+input, select {
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #93c5fd; /* حدود أزرق فاتح */
+  background: #ffffff11;
+  color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #60a5fa;
+  outline: none;
+}
+
+button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 0 12px #3B82F6;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 10px;
+  color: #fff;
+}
+
+#submitBtn {
+  background: linear-gradient(90deg, #1E40AF, #3B82F6); /* ألوان نور ومدرستي */
+  box-shadow: 0 0 12px #3B82F6;
+}
+
+#submitBtn:hover {
+  filter: brightness(85%);
+}
+
+#bankTransferBtn {
+  background-color: #10B981; /* أخضر لنظام نور */
+  box-shadow: 0 0 12px #10B981;
+}
+
+#bankTransferBtn.active-basic { background-color: #3B82F6; }
+#bankTransferBtn.active-premium { background-color: #2563EB; }
+#bankTransferBtn.active-gold { background-color: #14B8A6; color: black; }
+
+#bankTransferInfo {
+  display: none;
+  text-align: right;
+  margin-top: 15px;
+  background: #ffffff11;
+  padding: 15px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+#customDurationContainer {
+  display: none;
+  margin-top: 10px;
+}
+
+#customDurationInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #93c5fd;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  background: #ffffff11;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.price-display {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #bfdbfe;
+  font-weight: bold;
+}
+
+#calculationDetails {
+  display: none;
+  margin-top: 8px;
+  padding: 10px;
+  background: #ffffff11;
+  border-radius: 8px;
+  text-align: right;
+  font-size: 14px;
+  color: #e0f2fe;
+  white-space: pre-line;
+  font-family: monospace, 'Cairo', sans-serif;
+}
+
+#toggleCalcBtn {
+  margin-top: 4px;
+  background-color: #2563EB;
+  color: white;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+#toggleCalcBtn:hover { background-color: #1D4ED8; }
+
+#backBtn {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #3B82F6;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  background: #ffffff11;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+#backBtn:hover { background-color: #93c5fd33; }
+
+.upload-label {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #3B82F6;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background: #2563EB;
+  color: #fff;
+}
+
+.upload-label:hover {
+  background: #1D4ED8;
+}
+</style>
 </head>
 <body>
   <div class="box">

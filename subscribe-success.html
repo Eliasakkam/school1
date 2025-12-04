@@ -7,106 +7,106 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #d4fc79, #336b3a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #333;
-      overflow-x: hidden;
-      position: relative;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #4B5563, #9CA3AF); /* رمادي غامق → فاتح */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+  overflow-x: hidden;
+  position: relative;
+}
 
-    .message-box {
-      background: white;
-      border-radius: 20px;
-      padding: 40px 30px;
-      max-width: 600px;
-      width: 90%;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      animation: fadeInUp 1s ease;
-      z-index: 10;
-      position: relative;
-    }
+.message-box {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: fadeInUp 1s ease;
+  z-index: 10;
+  position: relative;
+}
 
-    h2 {
-      font-size: 2rem;
-      color: #388e3c;
-      margin-bottom: 15px;
-    }
+h2 {
+  font-size: 2rem;
+  color: #1f2937; /* غامق مناسب للرمادي */
+  margin-bottom: 15px;
+}
 
-    p {
-      font-size: 1.2rem;
-      color: #444;
-      margin-bottom: 20px;
-    }
+p {
+  font-size: 1.2rem;
+  color: #374151; /* داكن للنص */
+  margin-bottom: 20px;
+}
 
-    .back-link {
-      display: inline-block;
-      padding: 14px 28px;
-      background: linear-gradient(90deg, #81c784, #66bb6a);
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 6px 20px rgba(102, 187, 106, 0.4);
-      transition: all 0.3s ease;
-    }
+.back-link {
+  display: inline-block;
+  padding: 14px 28px;
+  background: linear-gradient(90deg, #6B7280, #4B5563); /* ألوان متناسقة مع الرمادي */
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 6px 20px rgba(75, 85, 99, 0.4);
+  transition: all 0.3s ease;
+}
 
-    .back-link:hover {
-      transform: scale(1.05);
-      background: linear-gradient(90deg, #66bb6a, #81c784);
-    }
+.back-link:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #4B5563, #6B7280);
+}
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    @media (max-width: 500px) {
-      .message-box {
-        padding: 30px 20px;
-      }
+@media (max-width: 500px) {
+  .message-box {
+    padding: 30px 20px;
+  }
 
-      h2 {
-        font-size: 1.5rem;
-      }
+  h2 {
+    font-size: 1.5rem;
+  }
 
-      p {
-        font-size: 1rem;
-      }
+  p {
+    font-size: 1rem;
+  }
 
-      .back-link {
-        font-size: 0.95rem;
-        padding: 12px 24px;
-      }
-    }
+  .back-link {
+    font-size: 0.95rem;
+    padding: 12px 24px;
+  }
+}
 
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background-color: red;
-      top: 0;
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: 1000;
-      will-change: transform;
-      border-radius: 3px;
-    }
-  </style>
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  top: 0;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1000;
+  will-change: transform;
+  border-radius: 3px;
+}
+</style>
 </head>
 <body>
   <div class="message-box">

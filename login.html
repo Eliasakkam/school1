@@ -7,90 +7,89 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #5a2a83, #9c27b0);
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      padding: 35px 25px;
-      width: 90%;
-      max-width: 380px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      text-align: center;
-      animation: fadeIn 1s ease forwards;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      font-weight: bold;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 12px;
-      border: none;
-      font-size: 1rem;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      background-color: #ffeb3b;
-      color: #333;
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-top: 15px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    button:hover {
-      background-color: #fdd835;
-      transform: scale(1.02);
-    }
-    .error, .success {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-    .error { color: #ffcdd2; }
-    .success { color: #a5ffb3; }
-    .toggle-link {
-      margin-top: 15px;
-      font-size: 0.95rem;
-      display: inline-block;
-      text-decoration: underline;
-      cursor: pointer;
-      color: #ffe;
-    }
-    .extra-link {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #ffeb3b;
-      cursor: pointer;
-      display: inline-block;
-      text-decoration: underline;
-    }
-    .hidden { display: none; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-  </style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #0C5F3F, #037C6E); /* دمج نور + مدرستي */
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  padding: 35px 25px;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background-color: #2E7D32; /* أخضر داكن للأزرار */
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+button:hover {
+  background-color: #1B5E20; /* أخضر أكثر داكنة عند التحويم */
+  transform: scale(1.02);
+}
+.error, .success {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.error { color: #ffcdd2; }
+.success { color: #B9F6CA; } /* أخضر فاتح للنصوص الإيجابية */
+.toggle-link {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  display: inline-block;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #C8E6C9; /* أخضر فاتح للنصوص الثانوية */
+}
+.extra-link {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #A5D6A7; /* أخضر متوسط */
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: underline;
+}
+.hidden { display: none; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+</style>
 </head>
 <body>
 

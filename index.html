@@ -9,149 +9,202 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #5a2a83, #9c27b0);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 15px;
-    }
-    header, nav, footer {
-      width: 100%;
-      max-width: 900px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-      background: rgba(255 255 255 / 0.08);
-      border-radius: 20px;
-      padding: 20px 30px;
-      margin-bottom: 25px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 900;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.5);
-      letter-spacing: 2px;
-      margin: 0;
-    }
-    .logout-btn, .dev-login-btn, .whatsapp-btn {
-      padding: 12px 25px;
-      border-radius: 12px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-      border: none;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .logout-btn { background-color: #ff5252; box-shadow: 0 6px 18px rgba(255, 82, 82, 0.6); }
-    .logout-btn:hover { background-color: #e04848; transform: scale(1.05); }
-    .dev-login-btn { background-color: #4caf50; box-shadow: 0 6px 18px rgba(76, 175, 80, 0.6); }
-    .dev-login-btn:hover { background-color: #3a8c3a; transform: scale(1.05); }
-    .whatsapp-btn { background-color: #25d366; box-shadow: 0 6px 18px rgba(37, 211, 102, 0.6); }
-    .whatsapp-btn:hover { background-color: #1da851; transform: scale(1.05); }
-    nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-      gap: 20px;
-      padding: 0;
-      justify-content: center;
-      margin: 0;
-    }
-    nav ul li {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 18px 0;
-      border-radius: 20px;
-      flex: 1 1 130px;
-      max-width: 200px;
-      text-align: center;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 1.1rem;
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: 0 15px;
-    }
-    nav ul li small {
-      display: block;
-      font-size: 0.8rem;
-      color: #ffeb3b;
-      margin-top: 5px;
-    }
-    .locked { pointer-events: none; opacity: 0.6; position: relative; }
-    footer {
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #ffeb3b;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      margin-top: auto;
-      padding: 15px;
-      user-select: none;
-    }
-    .social-buttons {
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .social-buttons a {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 0.95rem;
-      transition: transform 0.2s;
-    }
-    .social-buttons a:hover {
-      transform: scale(1.05);
-    }
-    .twitter { background-color: #1da1f2; color: white; }
-    .instagram {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-      color: white;
-    }
-    .snapchat { background-color: #fffc00; color: black; }
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.8rem; width: 100%; text-align: center; }
-      nav ul li { max-width: 100%; flex: 1 1 100%; font-size: 1rem; padding: 14px 0; }
-      .logout-btn, .dev-login-btn, .whatsapp-btn { padding: 10px 18px; font-size: 0.9rem; width: 100%; }
-    }
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #0C5F3F, #037C6E); /* دمج نور + مدرستي */
+  color: #F2F3F5; /* رمادي فاتح مريح */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+}
 
-    /* Animation for lock/unlock */
-    @keyframes unlock {
-      0% { transform: scale(1) rotate(0deg); opacity: 1; }
-      50% { transform: scale(1.3) rotate(20deg); }
-      100% { transform: scale(1) rotate(0); opacity: 0; }
-    }
-    @keyframes lock {
-      0% { transform: scale(0.8) rotate(-20deg); opacity: 0; }
-      50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0); }
-    }
+/* البطاقات */
+header, nav, footer {
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  background: rgba(255 255 255 / 0.08);
+  border-radius: 20px;
+  padding: 20px 30px;
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+  letter-spacing: 2px;
+  margin: 0;
+  color: #F2F3F5; /* رمادي الهوية */
+}
+
+/* أزرار */
+.logout-btn, .dev-login-btn, .whatsapp-btn {
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* خروج */
+.logout-btn {
+  background-color: #D9534F;
+  box-shadow: 0 6px 18px rgba(217, 83, 79, 0.45);
+}
+.logout-btn:hover {
+  background-color: #c94440;
+  transform: scale(1.05);
+}
+
+/* زر المطور */
+.dev-login-btn {
+  background-color: #0C5F3F; /* أخضر نور */
+  box-shadow: 0 6px 18px rgba(12,95,63,0.55);
+}
+.dev-login-btn:hover {
+  background-color: #0a4d33;
+  transform: scale(1.05);
+}
+
+/* واتساب */
+.whatsapp-btn {
+  background-color: #25d366;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+.whatsapp-btn:hover {
+  background-color: #1da851;
+  transform: scale(1.05);
+}
+
+/* القائمة */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 20px;
+  padding: 0;
+  justify-content: center;
+  margin: 0;
+}
+
+nav ul li {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 18px 0;
+  border-radius: 20px;
+  flex: 1 1 130px;
+  max-width: 200px;
+  text-align: center;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+nav ul li a {
+  color: #F2F3F5; /* رمادي فاتح */
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+}
+
+nav ul li small {
+  display: block;
+  font-size: 0.8rem;
+  color: #C6A667; /* الذهبي الهادئ */
+  margin-top: 5px;
+}
+
+.locked {
+  pointer-events: none;
+  opacity: 0.6;
+  position: relative;
+}
+
+/* الفوتر */
+footer {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #BFC4C6; /* الرمادي الهوية */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  margin-top: auto;
+  padding: 15px;
+  user-select: none;
+}
+
+/* سوشال */
+.social-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.social-buttons a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: transform 0.2s;
+}
+.social-buttons a:hover {
+  transform: scale(1.05);
+}
+
+.twitter { background-color: #1da1f2; color: white; }
+.instagram {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  color: white;
+}
+.snapchat { background-color: #fffc00; color: black; }
+
+/* موبايل */
+@media (max-width: 600px) {
+  header h1 { font-size: 1.8rem; width: 100%; text-align: center; }
+  nav ul li { max-width: 100%; flex: 1 1 100%; font-size: 1rem; padding: 14px 0; }
+  .logout-btn, .dev-login-btn, .whatsapp-btn {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+}
+
+/* animations */
+@keyframes unlock {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(20deg); }
+  100% { transform: scale(1) rotate(0); opacity: 0; }
+}
+@keyframes lock {
+  0% { transform: scale(0.8) rotate(-20deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
   </style>
 </head>
 <body>
